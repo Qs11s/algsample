@@ -5,7 +5,13 @@
     "k": 6,
     "j": 5,
     "s": 5,
-    "prune": false
+    "prune": true,
+    "seed": null,
+    "max_groups": 200,
+    "time_limit_ms": 0,
+    "trials": 10,
+    "score_cap": 5000,
+    "enum_work_limit": 3000000
   },
   "samples": [
     14,
@@ -70,7 +76,11 @@
     "y": 6,
     "runtime_ms": 0,
     "method": "greedy_enum",
-    "pruned": 0
+    "pruned": 0,
+    "total_nCj": 21,
+    "total_nCk": 7,
+    "enum_work": 147,
+    "stopped": "ok"
   },
   "validate": {
     "pass": true,

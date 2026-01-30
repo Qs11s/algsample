@@ -9,11 +9,22 @@ def ensure_db_dir(db_dir: str) -> None:
 
 def next_run_id(db_dir: str, prefix: str) -> int:
     ensure_db_dir(db_dir)
-    cnt = 0
+    mx = 0
     for f in os.listdir(db_dir):
-        if f.startswith(prefix) and f.endswith(".json"):
-            cnt += 1
-    return cnt + 1
+        if not (f.startswith(prefix + "-") and f.endswith(".json")):
+            continue
+        core = f[:-5]
+        parts = core.split("-")
+        if len(parts) < 7:
+            continue
+        try:
+            rid = int(parts[5])
+        except Exception:
+            continue
+        if rid > mx:
+            mx = rid
+    return mx + 1
+
 
 
 def save_run(db_dir: str, params: Dict[str, Any], samples: List[int], groups: List[List[int]], stats: Dict[str, Any], validate_out: Dict[str, Any]) -> str:
