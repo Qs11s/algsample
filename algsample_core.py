@@ -193,17 +193,39 @@ class AlgSampleSelector:
         return False
 
 if __name__ == "__main__":
-    selector = AlgSampleSelector()
+    from solver import solve
+    from validator import validate
+
     m = 45
     n = 7
     k = 6
     j = 5
     s = 5
+
+    params = {"m": m, "n": n, "k": k, "j": j, "s": s}
+
     custom_samples = None
-    selected_subsets, detail = selector.find_min_valid_k_subsets(m, n, k, j, s, custom_samples)
-    if selected_subsets:
-        selector.save_to_db(m, n, k, j, s, selected_subsets, detail)
-    
+
+    if custom_samples is None:
+        import random
+        samples = random.sample(range(1, m + 1), n)
+    else:
+        samples = custom_samples
+
+    solve_out = solve(params, samples)
+    groups = solve_out["groups"]
+    stats = solve_out["stats"]
+
+    val_out = validate(params, sorted(samples), groups)
+
+    print("params:", params)
+    print("samples:", sorted(samples))
+    print("stats:", stats)
+    print("validate:", val_out)
+    print("groups:")
+    for i, g in enumerate(groups, 1):
+        print(i, g)
+
 
     # selector.load_from_db("45-7-6-5-5-1-6.json")
     
